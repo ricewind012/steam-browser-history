@@ -1,4 +1,4 @@
-export const enum EBrowserType {
+export enum EBrowserType {
 	OffScreen,
 	OpenVROverlay,
 	OpenVROverlay_Dashboard,
@@ -15,7 +15,7 @@ export const enum EBrowserType {
 	OpenVROverlay_Subview,
 }
 
-export const enum EPopupCreationFlags {
+export enum EPopupCreationFlags {
 	None,
 	Minimized = 1 << 0,
 	Hidden = 1 << 1,

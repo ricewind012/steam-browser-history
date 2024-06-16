@@ -6,7 +6,7 @@ Note that history is not preserved between sessions.
 
 ## Preview
 
-![Preview](https://github.com/ricewind012/steam-browser-history/raw/master/img/steamwebhelper_2024-02-02_17-54-23.png)
+![Preview](./img/steamwebhelper_2024-02-02_17-54-23.png)
 
 ## TODO
 
@@ -16,4 +16,3 @@ Note that history is not preserved between sessions.
   - Preserve history between sessions
   - Make URL bar editable
   - Order
-

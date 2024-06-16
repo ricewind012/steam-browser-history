@@ -19,8 +19,9 @@ interface SteamBrowserHistoryEntry {
 	};
 }
 
-declare var MainWindowBrowserManager: {
+export interface MainWindowBrowserManager {
 	/** BrowserViewPopup */
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	m_browser: any;
 
 	/** Browser history. */
@@ -36,13 +37,13 @@ declare var MainWindowBrowserManager: {
 
 	/** Current location. */
 	location: SteamBrowserHistoryEntry;
-};
+}
 
-declare var SteamUIStore: {
+export interface SteamUIStore {
 	WindowStore: {
 		SteamUIWindows: {
 			/** Steam window's {@link Window}. */
 			m_BrowserWindow: Window;
 		}[];
 	};
-};
+}

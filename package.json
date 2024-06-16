@@ -1,0 +1,16 @@
+{
+  "name": "steam-browser-history",
+  "version": "1.0.0",
+  "description": "a template plugin for millennium",
+  "main": "./src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "millennium-lib --build dev"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "millennium-lib": "^3.4.2"
+  }
+}

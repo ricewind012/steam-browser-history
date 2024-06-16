@@ -3,10 +3,7 @@
 		"target": "esnext",
 		"module": "esnext",
 		"outDir": "dist",
-		"lib": [
-			"esnext",
-			"dom",
-			"dom.iterable"
-		]
+		"lib": ["esnext", "dom", "dom.iterable"],
+		"moduleResolution": "node"
 	}
 }

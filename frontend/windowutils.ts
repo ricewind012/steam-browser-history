@@ -1,5 +1,4 @@
-import { WaitForMessage } from "../shared++/utils.js";
-import { SteamWindow, SteamWindowOptions } from "./SteamWindow";
+import type { SteamWindow, SteamWindowOptions } from "./steamwindowdefs";
 
 interface WindowDimensions {
 	width: number;
@@ -19,32 +18,44 @@ const OptionsToString = (opts: any, char: string) =>
  * @param options Steam-specific window features.
  * @param dimensions Window dimensions.
  */
-export default async function CreateWindow(
+export async function CreateWindow(
 	options?: Partial<SteamWindowOptions>,
 	dimensions?: Partial<WindowDimensions>,
 ): Promise<SteamWindow> {
-	const opener = window.opener || window;
-
-	opener.__OpenedWindow = opener.window.open(
+	const wnd = window.open(
 		`about:blank?${OptionsToString(options, "&")}`,
 		undefined,
 		OptionsToString(
-			Object.assign(dimensions, {
+			{
+				...dimensions,
 				status: false,
 				toolbar: false,
 				menubar: false,
 				location: false,
-			}),
+			},
 			",",
 		),
-	);
+	) as SteamWindow;
+	if (!wnd) {
+		new Error(
+			`Failed to create popup, browser/CEF may be blocking popups for "${window.location.origin}"`,
+		);
+	}
 
-	const wnd = opener.__OpenedWindow;
 	await WaitForMessage("popup-created", wnd);
-
-	return wnd
-		? wnd
-		: new Error(
-				`Failed to create popup, browser/CEF may be blocking popups for "${window.location.origin}"`,
-		  );
+	return wnd;
 }
+
+export const WaitForMessage = async (msg: string, wnd: SteamWindow = window) =>
+	new Promise<void>((resolve) => {
+		function OnMessage(ev: MessageEvent) {
+			if ((ev.data.message || ev.data) !== msg) {
+				return;
+			}
+
+			resolve();
+			wnd.removeEventListener("message", OnMessage);
+		}
+
+		wnd.addEventListener("message", OnMessage);
+	});
