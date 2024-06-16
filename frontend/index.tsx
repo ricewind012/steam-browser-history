@@ -112,11 +112,8 @@ export default async function PluginMain() {
 						container.appendChild(entry);
 					});
 
-					// Wait for SFP injection
-					setTimeout(() => {
-						const { width, height } = container.getBoundingClientRect();
-						SteamClient.Window.ResizeTo(width, height, true);
-					}, 100);
+					const { width, height } = container.getBoundingClientRect();
+					SteamClient.Window.ResizeTo(width, height, true);
 				});
 			</script>
 		`);

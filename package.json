@@ -1,14 +1,11 @@
 {
   "name": "steam-browser-history",
   "version": "1.0.0",
-  "description": "a template plugin for millennium",
-  "main": "./src/index.ts",
+  "description": "See your browser history on URL bar click ",
+  "main": "./frontend/index.tsx",
   "type": "module",
   "scripts": {
     "build": "millennium-lib --build dev"
-  },
-  "devDependencies": {
-    "typescript": "^4.9.5"
   },
   "dependencies": {
     "millennium-lib": "^3.4.2"
