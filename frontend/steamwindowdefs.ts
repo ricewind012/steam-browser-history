@@ -25,7 +25,7 @@ export enum EPopupCreationFlags {
 	ScalePosition = 1 << 5,
 	ScaleSize = 1 << 6,
 	Maximized = 1 << 7,
-	BackgroundTransparent = 1 << 8,
+	Composited = 1 << 8,
 	NotFocusable = 1 << 9,
 	FullScreen = 1 << 10,
 	Fullscreen_Exclusive = 1 << 11,
@@ -39,6 +39,7 @@ export enum EPopupCreationFlags {
 	ForceRoundedCorners = 1 << 19,
 	OverrideRedirect = 1 << 20,
 	IgnoreSteamDisplayScale = 1 << 21,
+	TransparentParentWindow = 1 << 22,
 }
 
 export interface SteamWindowOptions {
