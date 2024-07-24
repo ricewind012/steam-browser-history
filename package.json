@@ -8,6 +8,6 @@
     "build": "millennium-lib --build dev"
   },
   "dependencies": {
-    "millennium-lib": "^3.4.2"
+    "millennium-lib": "^3.5.5"
   }
 }

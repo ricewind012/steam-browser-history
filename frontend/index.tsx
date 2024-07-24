@@ -1,26 +1,11 @@
 import { CreateWindow, WaitForMessage } from "./windowutils";
 import type * as globals from "./sharedjscontextglobals";
-import {
-  EBrowserType,
-  EPopupCreationFlags,
-  type SteamWindow,
-} from "./steamwindowdefs";
+import { EBrowserType, EPopupCreationFlags } from "./steamwindowdefs";
 
 import { findModule, Millennium } from "millennium-lib";
 
-declare const window: SteamWindow;
-
 declare const SteamUIStore: globals.SteamUIStore;
 declare const MainWindowBrowserManager: globals.MainWindowBrowserManager;
-
-window.addEventListener("message", (ev) => {
-  const msg = ev.data;
-  if (msg.message !== "open-link") {
-    return;
-  }
-
-  MainWindowBrowserManager.m_browser.LoadURL(msg.data);
-});
 
 export default async function PluginMain() {
   // Wait for the main window to be ready.
@@ -73,7 +58,7 @@ export default async function PluginMain() {
 						${classes.contextmenu.ContextMenuFocusContainer}
 					"
 					tabindex="0"
-					style="visibility: visible; min-width: 162.078px"
+					style="visibility: visible"
 				>
 					<div
 						id="menu"
@@ -85,38 +70,36 @@ export default async function PluginMain() {
 					></div>
 				</div>
 			</div>
-
-			<script>
-				window.addEventListener("message", (ev) => {
-					const msg = ev.data;
-					if (typeof msg != "object") {
-						return;
-					}
-
-					const container = document.getElementById("menu");
-
-					msg.forEach((link) => {
-						let entry = document.createElement("div");
-
-						entry.className = [
-							"${classes.menu.MenuItem}",
-							"${classes.contextmenu.contextMenuItem}",
-							"contextMenuItem",
-						].join(" ");
-						entry.innerText = link;
-						entry.addEventListener("click", () => {
-							window.opener.postMessage({ message: "open-link", data: link });
-							window.close();
-						});
-
-						container.appendChild(entry);
-					});
-
-					const { width, height } = container.getBoundingClientRect();
-					SteamClient.Window.ResizeTo(width, height, true);
-				});
-			</script>
 		`);
+
+    wnd.addEventListener("message", (ev) => {
+      const msg = ev.data;
+      if (typeof msg !== "object") {
+        return;
+      }
+
+      const container = wnd.document.getElementById("menu");
+
+      for (const link of msg) {
+        const entry = wnd.document.createElement("div");
+
+        entry.className = [
+          classes.menu.MenuItem,
+          classes.contextmenu.contextMenuItem,
+          "contextMenuItem",
+        ].join(" ");
+        entry.innerText = link;
+        entry.addEventListener("click", () => {
+          MainWindowBrowserManager.m_browser.LoadURL(link);
+          wnd.close();
+        });
+
+        container.appendChild(entry);
+      }
+
+      const { width, height } = container.getBoundingClientRect();
+      wnd.SteamClient.Window.ResizeTo(width, height, true);
+    });
 
     wnd.document.head.innerHTML = mainWindow.document.head.innerHTML;
     wnd.document.documentElement.className = [
