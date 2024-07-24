@@ -24,6 +24,47 @@ export default async function PluginMain() {
       `.${classes.steamdesktop.URLBarText}`
     )),
   ][0];
+  const urlBarBounds = urlBar.getBoundingClientRect();
+  const wnd = await CreateWindow({
+    browserType: EBrowserType.DirectHWND_Borderless,
+    createflags:
+      EPopupCreationFlags.Hidden | EPopupCreationFlags.NoRoundedCorners,
+  });
+
+  wnd.document.write(`
+    <div id="popup_target">
+      <div
+        class="
+          visible
+          ${classes.contextmenu.contextMenu}
+          ${classes.contextmenu.ContextMenuFocusContainer}
+        "
+        tabindex="0"
+        style="visibility: visible"
+      >
+        <div
+          id="menu"
+          class="
+            ${classes.contextmenu.contextMenuContents}
+            ${classes.menu.MenuPopup}
+            ${classes.supernav.MenuPopup}
+          "
+        ></div>
+      </div>
+    </div>
+  `);
+
+  wnd.document.head.innerHTML = mainWindow.document.head.innerHTML;
+  wnd.document.documentElement.className = [
+    classes.contextmenu.ContextMenuPopup,
+    "client_chat_frame",
+  ].join(" ");
+  wnd.document.body.className = "ContextMenuPopupBody DesktopUI";
+  wnd.document.body.style.height = "fit-content";
+
+  wnd.addEventListener("blur", () => {
+    wnd.SteamClient.Window.HideWindow();
+  });
 
   urlBar.addEventListener("click", async () => {
     const entries = MainWindowBrowserManager.m_history.entries
@@ -34,85 +75,31 @@ export default async function PluginMain() {
       return;
     }
 
-    const urlBarBounds = urlBar.getBoundingClientRect();
-    const wnd = await CreateWindow(
-      {
-        browserType: EBrowserType.DirectHWND_Borderless,
-        createflags:
-          EPopupCreationFlags.NoTaskbarIcon |
-          EPopupCreationFlags.NoRoundedCorners |
-          EPopupCreationFlags.NoWindowShadow,
-      },
-      {
-        top: mainWindow.screenY + urlBarBounds.y + urlBarBounds.height,
-        left: mainWindow.screenX + urlBarBounds.x,
-      }
+    const container = wnd.document.getElementById("menu");
+    container.innerHTML = "";
+    for (const link of entries) {
+      const entry = wnd.document.createElement("div");
+
+      entry.className = [
+        classes.menu.MenuItem,
+        classes.contextmenu.contextMenuItem,
+        "contextMenuItem",
+      ].join(" ");
+      entry.innerText = link;
+      entry.addEventListener("click", () => {
+        MainWindowBrowserManager.m_browser.LoadURL(link);
+        wnd.SteamClient.Window.HideWindow();
+      });
+
+      container.appendChild(entry);
+    }
+
+    const { width, height } = container.getBoundingClientRect();
+    wnd.SteamClient.Window.ShowWindow();
+    wnd.SteamClient.Window.ResizeTo(width, height, true);
+    wnd.SteamClient.Window.MoveTo(
+      mainWindow.screenX + urlBarBounds.x,
+      mainWindow.screenY + urlBarBounds.y + urlBarBounds.height
     );
-
-    wnd.document.write(`
-			<div id="popup_target">
-				<div
-					class="
-						visible
-						${classes.contextmenu.contextMenu}
-						${classes.contextmenu.ContextMenuFocusContainer}
-					"
-					tabindex="0"
-					style="visibility: visible"
-				>
-					<div
-						id="menu"
-						class="
-							${classes.contextmenu.contextMenuContents}
-							${classes.menu.MenuPopup}
-							${classes.supernav.MenuPopup}
-						"
-					></div>
-				</div>
-			</div>
-		`);
-
-    wnd.addEventListener("message", (ev) => {
-      const msg = ev.data;
-      if (typeof msg !== "object") {
-        return;
-      }
-
-      const container = wnd.document.getElementById("menu");
-
-      for (const link of msg) {
-        const entry = wnd.document.createElement("div");
-
-        entry.className = [
-          classes.menu.MenuItem,
-          classes.contextmenu.contextMenuItem,
-          "contextMenuItem",
-        ].join(" ");
-        entry.innerText = link;
-        entry.addEventListener("click", () => {
-          MainWindowBrowserManager.m_browser.LoadURL(link);
-          wnd.close();
-        });
-
-        container.appendChild(entry);
-      }
-
-      const { width, height } = container.getBoundingClientRect();
-      wnd.SteamClient.Window.ResizeTo(width, height, true);
-    });
-
-    wnd.document.head.innerHTML = mainWindow.document.head.innerHTML;
-    wnd.document.documentElement.className = [
-      classes.contextmenu.ContextMenuPopup,
-      "client_chat_frame",
-    ].join(" ");
-    wnd.document.body.className = "ContextMenuPopupBody DesktopUI";
-    wnd.document.body.style.height = "fit-content";
-
-    wnd.postMessage(entries);
-
-    wnd.addEventListener("blur", () => {
-      wnd.close();
-    });
   });
 }

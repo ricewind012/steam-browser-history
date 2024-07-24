@@ -11,7 +11,6 @@ Note that history is not preserved between sessions.
 ## TODO
 
 - Overlay browser ?
-- Faster way to create the window
 - Settings ?
   - Preserve history between sessions
   - Make URL bar editable
