@@ -2,7 +2,7 @@ import { CreateWindow, WaitForMessage } from "./windowutils";
 import type * as globals from "./sharedjscontextglobals";
 import { EBrowserType, EPopupCreationFlags } from "./steamwindowdefs";
 
-import { findModule, Millennium } from "millennium-lib";
+import { findModule, Millennium } from "@millennium/ui";
 
 declare const SteamUIStore: globals.SteamUIStore;
 declare const MainWindowBrowserManager: globals.MainWindowBrowserManager;
@@ -24,7 +24,6 @@ export default async function PluginMain() {
       `.${classes.steamdesktop.URLBarText}`
     )),
   ][0];
-  const urlBarBounds = urlBar.getBoundingClientRect();
   const wnd = await CreateWindow({
     browserType: EBrowserType.DirectHWND_Borderless,
     createflags:
@@ -66,35 +65,38 @@ export default async function PluginMain() {
     wnd.SteamClient.Window.HideWindow();
   });
 
-  urlBar.addEventListener("click", async () => {
-    const entries = MainWindowBrowserManager.m_history.entries
-      .filter((e) => e.state?.strURL?.startsWith("http"))
-      .map((e) => e.state.strURL)
-      .reverse();
-    if (entries.length <= 1) {
+  const container = wnd.document.getElementById("menu");
+  MainWindowBrowserManager.m_browser.on("start-request", (url) => {
+    if (url.startsWith("data")) {
       return;
     }
 
-    const container = wnd.document.getElementById("menu");
-    container.innerHTML = "";
-    for (const link of entries) {
-      const entry = wnd.document.createElement("div");
-
-      entry.className = [
-        classes.menu.MenuItem,
-        classes.contextmenu.contextMenuItem,
-        "contextMenuItem",
-      ].join(" ");
-      entry.innerText = link;
-      entry.addEventListener("click", () => {
-        MainWindowBrowserManager.m_browser.LoadURL(link);
-        wnd.SteamClient.Window.HideWindow();
-      });
-
-      container.appendChild(entry);
+    const entries = MainWindowBrowserManager.m_history.entries.map(
+      (e) => e.state.strURL
+    );
+    if (entries.slice(0, -1).includes(url) || entries.length <= 1) {
+      return;
     }
 
+    const entry = wnd.document.createElement("div");
+    entry.className = [
+      classes.menu.MenuItem,
+      classes.contextmenu.contextMenuItem,
+      "contextMenuItem",
+    ].join(" ");
+    entry.innerText = url;
+    entry.addEventListener("click", () => {
+      MainWindowBrowserManager.m_browser.LoadURL(url);
+      wnd.SteamClient.Window.HideWindow();
+    });
+
+    container.prepend(entry);
+  });
+
+  urlBar.addEventListener("click", () => {
     const { width, height } = container.getBoundingClientRect();
+    const urlBarBounds = urlBar.getBoundingClientRect();
+
     wnd.SteamClient.Window.ShowWindow();
     wnd.SteamClient.Window.ResizeTo(width, height, true);
     wnd.SteamClient.Window.MoveTo(

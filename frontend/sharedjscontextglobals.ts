@@ -21,8 +21,10 @@ interface SteamBrowserHistoryEntry {
 
 export interface MainWindowBrowserManager {
 	/** BrowserViewPopup */
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	m_browser: any;
+	m_browser: {
+		LoadURL(url: string): void;
+		on(event: "start-request", callback: (url: string) => void): void;
+	};
 
 	/** Browser history. */
 	m_history: {
