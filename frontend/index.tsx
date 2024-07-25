@@ -1,8 +1,10 @@
 import { CreateWindow, WaitForMessage } from "./windowutils";
 import type * as globals from "./sharedjscontextglobals";
 import { EBrowserType, EPopupCreationFlags } from "./steamwindowdefs";
+import { DesktopMenuItem } from "./contextmenu";
 
 import { findModule, Millennium } from "@millennium/ui";
+import * as ReactDOM from "react-dom";
 
 declare const SteamUIStore: globals.SteamUIStore;
 declare const MainWindowBrowserManager: globals.MainWindowBrowserManager;
@@ -71,26 +73,25 @@ export default async function PluginMain() {
       return;
     }
 
-    const entries = MainWindowBrowserManager.m_history.entries.map(
-      (e) => e.state.strURL
-    );
+    const entries = MainWindowBrowserManager.m_history.entries
+      .map((e) => e.state?.strURL)
+      .filter(Boolean);
     if (entries.slice(0, -1).includes(url) || entries.length <= 1) {
       return;
     }
 
-    const entry = wnd.document.createElement("div");
-    entry.className = [
-      classes.menu.MenuItem,
-      classes.contextmenu.contextMenuItem,
-      "contextMenuItem",
-    ].join(" ");
-    entry.innerText = url;
-    entry.addEventListener("click", () => {
-      MainWindowBrowserManager.m_browser.LoadURL(url);
-      wnd.SteamClient.Window.HideWindow();
-    });
-
-    container.prepend(entry);
+    const content = entries.reverse().map((e) => (
+      <DesktopMenuItem
+        key={e}
+        onClick={() => {
+          MainWindowBrowserManager.m_browser.LoadURL(e);
+          wnd.SteamClient.Window.HideWindow();
+        }}
+      >
+        {e}
+      </DesktopMenuItem>
+    ));
+    ReactDOM.render(content, container);
   });
 
   urlBar.addEventListener("click", () => {

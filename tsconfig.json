@@ -3,7 +3,9 @@
 		"target": "esnext",
 		"module": "esnext",
 		"outDir": "dist",
-		"lib": ["esnext", "dom", "dom.iterable"],
+		"jsx": "react",
+		"jsxFactory": "window.SP_REACT.createElement",
+		"jsxFragmentFactory": "window.SP_REACT.Fragment",
 		"moduleResolution": "node"
 	}
 }
