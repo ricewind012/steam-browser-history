@@ -1,13 +1,15 @@
 {
-  "name": "steam-browser-history",
-  "version": "1.0.0",
-  "description": "See your browser history on URL bar click",
-  "main": "./frontend/index.tsx",
-  "type": "module",
-  "scripts": {
-    "build": "millennium-ttc --build dev"
-  },
-  "dependencies": {
-    "@millennium/ui": "file:~/millennium-ui-3.5.5.tgz"
-  }
+	"name": "steam-browser-history",
+	"version": "1.0.0",
+	"description": "See your browser history on URL bar click",
+	"main": "./frontend/index.tsx",
+	"type": "module",
+	"scripts": {
+		"build": "millennium-ttc --build dev"
+	},
+	"dependencies": {
+		"@types/react": "^18.3.11",
+		"@types/react-dom": "^18.3.1",
+		"millennium-lib": "^3.5.6"
+	}
 }

@@ -3,7 +3,7 @@ import type * as globals from "./sharedjscontextglobals";
 import { EBrowserType, EPopupCreationFlags } from "./steamwindowdefs";
 import { DesktopMenuItem } from "./contextmenu";
 
-import { findModule, Millennium } from "@millennium/ui";
+import { findModule, Millennium } from "millennium-lib";
 import * as ReactDOM from "react-dom";
 
 declare const g_PopupManager: globals.PopupManager;
