@@ -19,6 +19,18 @@ interface SteamBrowserHistoryEntry {
 	};
 }
 
+export interface SteamPopup {
+	/**
+	 * Root element.
+	 */
+	m_element: HTMLElement;
+	m_popup: Window;
+	/**
+	 * Popup (internal) name.
+	 */
+	m_strName: string;
+}
+
 export interface MainWindowBrowserManager {
 	/** BrowserViewPopup */
 	m_browser: {
@@ -41,11 +53,14 @@ export interface MainWindowBrowserManager {
 	location: SteamBrowserHistoryEntry;
 }
 
-export interface SteamUIStore {
-	WindowStore: {
-		SteamUIWindows: {
-			/** Steam window's {@link Window}. */
-			m_BrowserWindow: Window;
-		}[];
-	};
+export interface PopupManager {
+	/**
+	 * Adds a callback to dispatch on popup creation.
+	 */
+	AddPopupCreatedCallback(callback: (popup: SteamPopup) => void): void;
+
+	/**
+	 * @returns the popup for the specified popup name.
+	 */
+	GetExistingPopup(popupName: string): SteamPopup | undefined;
 }
