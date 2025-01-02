@@ -5,11 +5,13 @@
 	"main": "./frontend/index.tsx",
 	"type": "module",
 	"scripts": {
-		"build": "millennium-ttc --build dev"
+		"dev": "millennium-ttc --build dev",
+		"build": "millennium-ttc --build prod"
 	},
 	"dependencies": {
+		"@steambrew/client": "^4.2.1",
+		"@steambrew/ttc": "^1.0.5",
 		"@types/react": "^18.3.11",
-		"@types/react-dom": "^18.3.1",
-		"millennium-lib": "^3.5.6"
+		"@types/react-dom": "^18.3.1"
 	}
 }

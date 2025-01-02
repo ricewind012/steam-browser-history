@@ -1,4 +1,4 @@
-import { findModuleExport } from "@millennium/ui";
+import { findModuleExport } from "@steambrew/client";
 
 interface DesktopMenuItemProps {
 	children?: React.ReactNode;

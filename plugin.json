@@ -1,5 +1,5 @@
 {
-	"$schema": "https://raw.githubusercontent.com/SteamClientHomebrew/Millennium/main/src/sys/plugin-schema.json",
+	"$schema": "https://raw.githubusercontent.com/shdwmtr/millennium/main/src/sys/plugin-schema.json",
 
 	"name": "browser_history",
 	"common_name": "Browser History",
