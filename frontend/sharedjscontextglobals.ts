@@ -32,9 +32,10 @@ export interface SteamPopup {
 }
 
 export interface MainWindowBrowserManager {
+	ShowURL(url: string): void;
+
 	/** BrowserViewPopup */
 	m_browser: {
-		LoadURL(url: string): void;
 		on(event: "start-request", callback: (url: string) => void): void;
 	};
 
