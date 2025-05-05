@@ -1,6 +1,6 @@
 {
 	"name": "steam-browser-history",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "See your browser history on URL bar click",
 	"main": "./frontend/index.tsx",
 	"type": "module",

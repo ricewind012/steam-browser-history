@@ -3,5 +3,6 @@
 
 	"name": "browser_history",
 	"common_name": "Browser History",
-	"description": "See your browser history on URL bar click"
+	"description": "See your browser history on URL bar click",
+	"version": "1.0.1"
 }
