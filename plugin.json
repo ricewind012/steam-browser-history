@@ -3,6 +3,5 @@
 
 	"name": "browser_history",
 	"common_name": "Browser History",
-	"description": "See your browser history on URL bar click",
-	"useBackend": false
+	"description": "See your browser history on URL bar click"
 }
