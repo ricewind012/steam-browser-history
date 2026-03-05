@@ -4,6 +4,7 @@ import {
 	MenuItem,
 	Millennium,
 	showContextMenu,
+	sleep,
 } from "@steambrew/client";
 import type * as globals from "./sharedjscontextglobals";
 
@@ -27,6 +28,7 @@ async function OnPopupCreation(popup: globals.SteamPopup) {
 		`.${classes.steamdesktop.URLBarText}`,
 		popup.m_popup.document
 	);
+	console.error(urlBar)
 
 	let entries: string[] = [];
 	MainWindowBrowserManager.m_browser.on("start-request", (url) => {
@@ -63,6 +65,9 @@ async function OnPopupCreation(popup: globals.SteamPopup) {
 }
 
 export default async function PluginMain() {
+	// shitty millennium ui rerender workaround
+	await sleep(5_000);
+
 	const wnd = g_PopupManager.GetExistingPopup(MAIN_WINDOW_NAME);
 	if (wnd) {
 		OnPopupCreation(wnd);
