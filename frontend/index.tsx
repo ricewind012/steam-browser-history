@@ -54,7 +54,6 @@ async function OnPopupCreation(popup: globals.SteamPopup) {
 				))}
 			</Menu>,
 			urlBar,
-			// @ts-ignore
 			{
 				bForcePopup: true,
 				bOverlapHorizontal: true,

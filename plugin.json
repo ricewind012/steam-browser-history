@@ -1,6 +1,5 @@
 {
 	"$schema": "https://raw.githubusercontent.com/shdwmtr/millennium/main/src/sys/plugin-schema.json",
-
 	"name": "browser_history",
 	"common_name": "Browser History",
 	"description": "See your browser history on URL bar click",
