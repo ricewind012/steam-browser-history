@@ -1,10 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "esnext",
-		"module": "esnext",
-		"jsx": "react",
-		"jsxFactory": "window.SP_REACT.createElement",
-		"jsxFragmentFactory": "window.SP_REACT.Fragment",
-		"moduleResolution": "node"
+		"jsx": "react-jsx",
+		"moduleResolution": "bundler"
 	}
 }

@@ -9,9 +9,9 @@
 		"build": "millennium-ttc --build prod"
 	},
 	"dependencies": {
-		"@steambrew/client": "^5.8.4",
-		"@steambrew/ttc": "^3.2.6",
-		"@types/react": "^19.2.14",
+		"@steambrew/client": "^5.8.5",
+		"@steambrew/ttc": "^3.3.7",
+		"@types/react": "^19.2.15",
 		"@types/react-dom": "^19.2.3"
 	}
 }
