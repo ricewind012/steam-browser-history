@@ -1,0 +1,9 @@
+[plugin]
+author = "ricewind"
+description = "See your Steam browser history on URL bar click"
+id = "steam-browser-history"
+name = "Browser History"
+version = "1.0.3"
+
+[frontend]
+entry = "src/frontend/index.tsx"

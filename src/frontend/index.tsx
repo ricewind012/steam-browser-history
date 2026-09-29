@@ -1,11 +1,12 @@
 import {
+	definePlugin,
 	findModule,
 	Menu,
 	MenuItem,
 	Millennium,
 	showContextMenu,
 	sleep,
-} from "@steambrew/client";
+} from "millennium";
 import type * as globals from "./sharedjscontextglobals";
 
 declare const g_PopupManager: globals.PopupManager;
@@ -63,7 +64,7 @@ async function OnPopupCreation(popup: globals.SteamPopup) {
 	});
 }
 
-export default async function PluginMain() {
+export default definePlugin(async () => {
 	// shitty millennium ui rerender workaround
 	await sleep(5_000);
 
@@ -72,4 +73,8 @@ export default async function PluginMain() {
 		OnPopupCreation(wnd);
 	}
 	g_PopupManager.AddPopupCreatedCallback(OnPopupCreation);
-}
+
+	return {
+		icon: <></>,
+	};
+});

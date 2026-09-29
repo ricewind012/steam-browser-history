@@ -5,13 +5,12 @@
 	"main": "./frontend/index.tsx",
 	"type": "module",
 	"scripts": {
-		"dev": "millennium-ttc --build dev",
-		"build": "millennium-ttc --build prod"
+		"dev": "starlight",
+		"build": "starlight --release"
 	},
 	"dependencies": {
-		"@steambrew/client": "^5.8.5",
-		"@steambrew/ttc": "^3.3.7",
-		"@types/react": "^19.2.15",
-		"@types/react-dom": "^19.2.3"
+		"@steambrew/starlight": "^1.1.6",
+		"@types/react": "19.1.1",
+		"@types/react-dom": "19.1.1"
 	}
 }

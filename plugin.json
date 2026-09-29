@@ -1,8 +1,0 @@
-{
-	"$schema": "https://raw.githubusercontent.com/SteamClientHomebrew/Millennium/main/src/system/plugin-schema.json",
-	"name": "browser_history",
-	"common_name": "Browser History",
-	"description": "See your browser history on URL bar click",
-	"version": "1.0.3",
-	"useBackend": false
-}

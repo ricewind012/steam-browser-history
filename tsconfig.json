@@ -1,7 +1,12 @@
 {
 	"compilerOptions": {
-		"target": "esnext",
+		"allowSyntheticDefaultImports": true,
 		"jsx": "react-jsx",
-		"moduleResolution": "bundler"
-	}
+		"moduleResolution": "bundler",
+		"paths": {
+			"millennium": ["./.millennium/lsp/ts"]
+		},
+		"resolveJsonModule": true
+	},
+	"include": ["./src/frontend", "./.millennium/types"]
 }
