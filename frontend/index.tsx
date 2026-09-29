@@ -26,9 +26,8 @@ async function OnPopupCreation(popup: globals.SteamPopup) {
 	};
 	const urlBar = await WaitForElement(
 		`.${classes.steamdesktop.URLBarText}`,
-		popup.m_popup.document
+		popup.m_popup.document,
 	);
-	console.error(urlBar)
 
 	let entries: string[] = [];
 	MainWindowBrowserManager.m_browser.on("start-request", (url) => {
@@ -59,7 +58,7 @@ async function OnPopupCreation(popup: globals.SteamPopup) {
 			{
 				bForcePopup: true,
 				bOverlapHorizontal: true,
-			}
+			},
 		);
 	});
 }
